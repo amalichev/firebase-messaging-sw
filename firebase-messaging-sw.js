@@ -17,5 +17,5 @@ const messaging = firebase.messaging();
 messaging.getToken().then((currentToken) => {
   console.log('Token:', currentToken);
 }).catch((error) => {
-  console.log('An error occurred while retrieving token. ', error);
+  console.log(error);
 });
