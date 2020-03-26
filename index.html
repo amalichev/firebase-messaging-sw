@@ -18,7 +18,12 @@
   addEventListener('load', async () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js');
-      navigator.serviceWorker.register('/firebase-messaging-sw.js');
+
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        }
+      });
     }
   });
 </script>
