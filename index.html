@@ -6,26 +6,45 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="#2196f3">
-    <meta name="description" content="Free Salon Software for all growing hair salons, beauty salons & spa and enable customers to make bookings via your own booking page.">
+    <meta name="description"
+          content="Free Salon Software for all growing hair salons, beauty salons & spa and enable customers to make bookings via your own booking page.">
     <title>Firebase Cloud Messaging</title>
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" size="128x128" href="/images/icons/icon-128x128.png">
 </head>
 <body>
+
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-messaging.js"></script>
+<script src="/firebase-configs.js"></script>
+
 <script>
   addEventListener('load', async () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js');
 
-      if (!("Notification" in window)) {
+      if (!('Notification' in window)) {
         console.log('This browser does not support desktop notification');
-      } else if (Notification.permission === "granted") {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js');
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(function (permission) {
-          if (permission === "granted") {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      } else if (Notification.permission === 'granted') {
+        //navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        subscribe();
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(function(permission) {
+          if (permission === 'granted') {
+            //navigator.serviceWorker.register('/firebase-messaging-sw.js');
+            subscribe();
           }
+        });
+      }
+
+      function subscribe() {
+        firebase.initializeApp(firebaseConfigs);
+        const messaging = firebase.messaging();
+
+        messaging.requestPermission().then(() => {
+          messaging.getToken().then((fcm_token) => {
+            console.log('FCM token:', fcm_token);
+          });
         });
       }
     }
