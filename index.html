@@ -270,11 +270,11 @@
       if (!("Notification" in window)) {
         console.log('This browser does not support desktop notification');
       } else if (Notification.permission === "granted") {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        navigator.serviceWorker.register('/_firebase-messaging-sw.js');
       } else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(function (permission) {
           if (permission === "granted") {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js');
+            navigator.serviceWorker.register('/_firebase-messaging-sw.js');
           }
         });
       }
